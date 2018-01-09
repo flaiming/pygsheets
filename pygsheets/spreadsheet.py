@@ -239,9 +239,9 @@ class Spreadsheet(object):
         body = {'findReplace': body}
         response = self.client.sh_batch_update(self.id, request=body, batch=self.batch_mode)
         return response['replies'][0]['findReplace']
-    
+
     # @TODO impliment expiration time
-    def share(self, addr, role='reader', expirationTime=None, is_group=False):
+    def share(self, addr, role='reader', expirationTime=None, is_group=False, transfer_ownership=False):
         """
         create/update permission for user/group/domain
 
@@ -250,7 +250,7 @@ class Spreadsheet(object):
         :param expirationTime: (Not Implimented) time until this permission should last (datetime)
         :param is_group: boolean , Is this a use/group used only when email provided
         """
-        return self.client.add_permission(self.id, addr, role=role, is_group=False)
+        return self.client.add_permission(self.id, addr, role=role, is_group=False, transfer_ownership=transfer_ownership)
 
     def list_permissions(self):
         """

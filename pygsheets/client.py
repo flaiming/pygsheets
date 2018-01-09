@@ -237,7 +237,7 @@ class Client(object):
         """
         return self._spreadsheeets
 
-    def add_permission(self, file_id, addr, role='reader', is_group=False, expirationTime=None):
+    def add_permission(self, file_id, addr, role='reader', is_group=False, expirationTime=None, transfer_ownership=False):
         """
         create/update permission for user/group/domain
 
@@ -263,7 +263,8 @@ class Client(object):
                 'domain': addr
             }
         self.driveService.permissions().create(fileId=file_id, body=permission, fields='id',
-                                               supportsTeamDrives=self.enableTeamDriveSupport).execute()
+                                               supportsTeamDrives=self.enableTeamDriveSupport,
+                                               transferOwnership=transfer_ownership).execute()
 
     def list_permissions(self, file_id):
         """
