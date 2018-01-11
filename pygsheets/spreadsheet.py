@@ -241,7 +241,7 @@ class Spreadsheet(object):
         return response['replies'][0]['findReplace']
 
     # @TODO impliment expiration time
-    def share(self, addr, role='reader', expirationTime=None, is_group=False, transfer_ownership=False):
+    def share(self, addr, role='reader', expirationTime=None, is_group=False, transfer_ownership=False, send_notification_email=True):
         """
         create/update permission for user/group/domain
 
@@ -249,8 +249,12 @@ class Spreadsheet(object):
         :param role: permission to be applied ('owner','writer','commenter','reader')
         :param expirationTime: (Not Implimented) time until this permission should last (datetime)
         :param is_group: boolean , Is this a use/group used only when email provided
+        :param transfer_ownership: boolean , Whether to transfer ownership to the specified user and downgrade the current owner to a writer
+        :param send_notification_email: boolean , Whether to send a notification email when sharing to users or groups. It must not be disabled for ownership transfers
+
         """
-        return self.client.add_permission(self.id, addr, role=role, is_group=False, transfer_ownership=transfer_ownership)
+        return self.client.add_permission(self.id, addr, role=role, is_group=False, transfer_ownership=transfer_ownership,
+                                          send_notification_email=send_notification_email)
 
     def list_permissions(self):
         """

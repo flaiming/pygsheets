@@ -237,7 +237,7 @@ class Client(object):
         """
         return self._spreadsheeets
 
-    def add_permission(self, file_id, addr, role='reader', is_group=False, expirationTime=None, transfer_ownership=False):
+    def add_permission(self, file_id, addr, role='reader', is_group=False, expirationTime=None, transfer_ownership=False, send_notification_email=True):
         """
         create/update permission for user/group/domain
 
@@ -246,6 +246,8 @@ class Client(object):
         :param role: permission to be applied
         :param expirationTime: (Not Implimented) time until this permission should last
         :param is_group: boolean , Is this addr a group; used only when email provided
+        :param transfer_ownership: boolean , Whether to transfer ownership to the specified user and downgrade the current owner to a writer
+        :param send_notification_email: boolean , Whether to send a notification email when sharing to users or groups. It must not be disabled for ownership transfers
 
         """
         if _email_patttern.match(addr):
@@ -264,7 +266,8 @@ class Client(object):
             }
         self.driveService.permissions().create(fileId=file_id, body=permission, fields='id',
                                                supportsTeamDrives=self.enableTeamDriveSupport,
-                                               transferOwnership=transfer_ownership).execute()
+                                               transferOwnership=transfer_ownership,
+                                               sendNotificationEmail=send_notification_email).execute()
 
     def list_permissions(self, file_id):
         """
